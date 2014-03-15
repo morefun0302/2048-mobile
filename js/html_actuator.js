@@ -37,7 +37,6 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 
 // Continues the game (both restart and keep playing)
 HTMLActuator.prototype.continue = function () {
-  this.clearMessage();
 };
 
 HTMLActuator.prototype.clearContainer = function (container) {
@@ -104,20 +103,12 @@ HTMLActuator.prototype.positionClass = function (position) {
 };
 
 HTMLActuator.prototype.updateScore = function (score) {
-  this.clearContainer(this.scoreContainer);
+	
+  Ti.App.fireEvent('score:update',{score: score});
 
   var difference = score - this.score;
   this.score = score;
-
-  this.scoreContainer.textContent = this.score;
-
-  if (difference > 0) {
-    var addition = document.createElement("div");
-    addition.classList.add("score-addition");
-    addition.textContent = "+" + difference;
-
-    this.scoreContainer.appendChild(addition);
-  }
+  
 };
 
 HTMLActuator.prototype.updateBestScore = function (bestScore) {
@@ -125,15 +116,10 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 };
 
 HTMLActuator.prototype.message = function (won) {
-  var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  alert('end game! message htmlactuator');
+  Ti.App.fireEvent('endgame',{result: won});	
 
-  this.messageContainer.classList.add(type);
-  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
 };
 
 HTMLActuator.prototype.clearMessage = function () {
-  // IE only takes one value to remove at a time.
-  this.messageContainer.classList.remove("game-won");
-  this.messageContainer.classList.remove("game-over");
 };

@@ -11,6 +11,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.setup();
+  
 }
 
 // Restart the game
@@ -71,6 +72,14 @@ GameManager.prototype.actuate = function () {
   if (this.scoreManager.get() < this.score) {
     this.scoreManager.set(this.score);
   }
+
+  Ti.App.fireEvent('gameupdate',{
+    score:      this.score,
+    over:       this.over,
+    won:        this.won,
+    bestScore:  this.scoreManager.get(),
+    terminated: this.isGameTerminated()
+  });
 
   this.actuator.actuate(this.grid, {
     score:      this.score,

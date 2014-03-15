@@ -65,6 +65,16 @@ KeyboardInputManager.prototype.listen = function () {
   var touchStartClientX, touchStartClientY;
   var gameContainer = document.getElementsByClassName("game-container")[0];
 
+  document.addEventListener("touchmove", function(e){
+  	e.preventDefault();
+  });
+  document.addEventListener("touchstart", function(e){
+  	e.preventDefault();
+  });
+  document.addEventListener("touchend", function(e){
+  	e.preventDefault();
+  });
+
   gameContainer.addEventListener("touchstart", function (event) {
     if (event.touches.length > 1) return;
 
